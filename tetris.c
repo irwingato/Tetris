@@ -29,12 +29,36 @@ void init(char matrix[ROWS][COLUMNS]){
 void printMatrix(char matrix[ROWS][COLUMNS]){
     int i,j;
 
-    for(i=0; i<ROWS; i++){
+    for(j=0; j<COLUMNS+2; j++)
+        {
+            printf("*");
+        }  
+
+    printf("\n");
+
+    //print do mapa
+    for(i=0; i<ROWS; i++)
+    {
+        //print borda esquerda
         printf("*");
-        for(j=0; j<COLUMNS; j++){
+    
+
+        //print mapa
+        for(j=0; j<COLUMNS; j++)
+        {
             printf("%c", matrix[i][j]);
         }
+
+        //printf borda direita
         printf("*");
         printf("\n");
     }
-}
+        
+        //print borda debaixo
+    for(j=0; j<COLUMNS+2; j++)
+        {
+            printf("*");
+        }
+    }
+
+    

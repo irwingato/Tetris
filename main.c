@@ -22,7 +22,7 @@ int main(){
     int posI, posJ;
 
     //posicao inicial do personagem
-    posI = ROWS/25;
+    posI = ROWS/ROWS;
     posJ = COLUMNS/2;
     //inicializando matriz
     init(matrix);
@@ -40,7 +40,7 @@ int main(){
 
         matrix[posI][posJ] = ' ';
         
-        if(posJ < COLUMNS) posJ++;
+        if(posJ < COLUMNS) posI++;
     }
 
     system("pause");
