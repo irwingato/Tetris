@@ -2,7 +2,7 @@
     Jogo interativo Tetris implementado em linguagem C para uso 
     no console (terminal de comandos)
 
-    Autor: Irwing Seiji Ato
+    Autor: Augusto Luengo Pereira Nunes
     Data: 28/08/2019
 
 */

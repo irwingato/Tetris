@@ -2,7 +2,7 @@
     Jogo interativo Tetris implementado em linguagem C para uso 
     no console (terminal de comandos)
 
-    Autor: Irwing Seiji Ato
+    Autor: Augusto Luengo Pereira Nunes
     Data: 28/08/2019
 
 */
@@ -29,36 +29,27 @@ void init(char matrix[ROWS][COLUMNS]){
 void printMatrix(char matrix[ROWS][COLUMNS]){
     int i,j;
 
-    for(j=0; j<COLUMNS+2; j++)
-        {
-            printf("*");
-        }  
-
+    printf("\t\t\t");
+    //Linha de cima
+    for(j=0; j<COLUMNS+2; j++){
+        printf("*");
+    }
     printf("\n");
 
-    //print do mapa
-    for(i=0; i<ROWS; i++)
-    {
-        //print borda esquerda
-        printf("*");
-    
-
-        //print mapa
-        for(j=0; j<COLUMNS; j++)
-        {
+    //Matriz do jogo
+    for(i=0; i<ROWS; i++){        
+        printf("\t\t\t*");
+        for(j=0; j<COLUMNS; j++){
             printf("%c", matrix[i][j]);
         }
+        printf("*\n");
+    }
 
-        //printf borda direita
+    printf("\t\t\t");
+    //Linha de baixo
+    for(j=0; j<COLUMNS+2; j++){
         printf("*");
-        printf("\n");
     }
-        
-        //print borda debaixo
-    for(j=0; j<COLUMNS+2; j++)
-        {
-            printf("*");
-        }
-    }
+    printf("\n");
 
-    
+}
