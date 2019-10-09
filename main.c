@@ -12,6 +12,7 @@
 
 #include "tetris.h"
 #include "display.h"
+#define DEBUG 1
 
 /*
     Parte principal do programa, responsável por iniciar e 
@@ -19,12 +20,16 @@
 */
 int main(){
     char matrix[ROWS][COLUMNS];
-    int posI, posJ;
+    Bloco tijolo;
     int keypressed=0;
 
     //posicao inicial do personagem
-    posI = 0;
-    posJ = COLUMNS/2;
+    tijolo.i = 0;
+    tijolo.j = COLUMNS/2;
+    tijolo.tipo = TIPO_I;
+    tijolo.orientacao = ORIENTACAO_UP;
+    tijolo.width = 1;
+    tijolo.height = 4;
     //inicializando matriz
     init(matrix);
 
@@ -36,17 +41,47 @@ int main(){
     while(keypressed != ESC){        
         gotoxy(0,0);
 
+        #if DEBUG == 1
+        printf("@ = (%d, %d)\n", tijolo.i, tijolo.j);
+        #endif
+
         //posicionar o @ no meio da tela
-        matrix[posI][posJ] = '@';
+        switch(tijolo.orientacao){
+            case ORIENTACAO_UP:
+                if(tijolo.i-3>=0) matrix[tijolo.i-3][tijolo.j] = PIXEL;
+                if(tijolo.i-2>=0) matrix[tijolo.i-2][tijolo.j] = PIXEL;
+                if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = PIXEL;
+                matrix[tijolo.i][tijolo.j] = PIXEL;
+                break;
+        case ORIENTACAO_DOWN:
+                if(tijolo.j-3 >=0) matrix[tijolo.i][tijolo.j-3] = PIXEL;
+                if(tijolo.j-2 >=0) matrix[tijolo.i][tijolo.j-2] = PIXEL;
+                if(tijolo.j-1 >=0) matrix[tijolo.i][tijolo.j-1] = PIXEL;
+                matrix[tijolo.i][tijolo.j] = PIXEL;
+                break;              
+        case ORIENTACAO_LEFT:
+            //Outra orientação de desenho
+            break;
+        }
 
         //mostro a matriz na tela
         printMatrix(matrix);
+        switch(tijolo.orientacao){
+            case ORIENTACAO_UP:
+            //faça posição anterior do @ ser apagada
+            if(tijolo.i-3>=0) matrix[tijolo.i-3][tijolo.j] = EMPTY;
+            if(tijolo.i-2>=0) matrix[tijolo.i-2][tijolo.j] = EMPTY;
+            if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = EMPTY;
+            matrix[tijolo.i][tijolo.j] = EMPTY;
 
-        //faça posição anterior do @ ser apagada
-        matrix[posI][posJ] = ' ';
-        
+            if(tijolo.i < (ROWS-1)) tijolo.i++;
+            break;
+            case ORIENTACAO_LEFT:
+
+            break;
+        }
         //faço a posição da @ ir para a direita
-        if(posI < (ROWS-1)) posI++;
+        
 
         //lendo teclas
         keypressed = 0;         
@@ -57,12 +92,12 @@ int main(){
             case TECLA_a:
             case TECLA_A:
             case LEFT: 
-                if(posJ > 0) posJ--; //vai para esquerda
+                if(tijolo.j > 0) tijolo.j--; //vai para esquerda
             break; 
             case TECLA_d:
             case TECLA_D:
             case RIGHT: 
-                if(posJ < (COLUMNS-1)) posJ++; //vai para a direita 
+                if(tijolo.j < (COLUMNS-1)) tijolo.j++; //vai para a direita 
             break; 
         }
 

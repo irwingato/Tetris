@@ -24,6 +24,34 @@
 #define TECLA_a 97
 #define TECLA_D 100
 #define TECLA_d 68
+//Criando a orientação das peças
+#define ORIENTACAO_UP 1
+#define ORIENTACAO_DOWN 2
+#define ORIENTACAO_LEFT 3
+#define ORIENTACAO_RIGHT 4
+//Criando os tipos de peças
+#define TIPO_L 1
+#define TIPO_L_R 2 // L reverso
+#define TIPO_T 3
+#define TIPO_Z 4
+#define TIPO_Z_R 5 // Z reverso
+#define TIPO_O 6   // Quadrado
+#define TIPO_I 7 
+
+//Configuração de layout
+#define PIXEL 219
+#define EMPTY 32
+
+
+//Estrutura padrão de componentes
+typedef struct{
+    int i; //posição nas linhas da matriz
+    int j; //posição nas colunas da matriz
+    int orientacao; //orientação da peça
+    int tipo; //tipo de peça (7 possíveis)
+    int width; //largura da peça
+    int height; //altura da peça
+}Bloco;
 
 /*
     Inicializa a matriz principal com 'espaços vazios'
