@@ -27,7 +27,7 @@ int main(){
     tijolo.i = 0;
     tijolo.j = COLUMNS/2;
     tijolo.tipo = TIPO_I;
-    tijolo.orientacao = ORIENTACAO_UP;
+    tijolo.orientacao = ORIENTACAO_LEFT;
     tijolo.width = 1;
     tijolo.height = 4;
     //inicializando matriz
@@ -48,18 +48,18 @@ int main(){
         //posicionar o @ no meio da tela
         switch(tijolo.orientacao){
             case ORIENTACAO_UP:
+                matrix[tijolo.i][tijolo.j] = PIXEL;
                 if(tijolo.i-3>=0) matrix[tijolo.i-3][tijolo.j] = PIXEL;
                 if(tijolo.i-2>=0) matrix[tijolo.i-2][tijolo.j] = PIXEL;
-                if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = PIXEL;
-                matrix[tijolo.i][tijolo.j] = PIXEL;
+                if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = PIXEL;                
                 break;
-        case ORIENTACAO_DOWN:
-                if(tijolo.j-3 >=0) matrix[tijolo.i][tijolo.j-3] = PIXEL;
-                if(tijolo.j-2 >=0) matrix[tijolo.i][tijolo.j-2] = PIXEL;
-                if(tijolo.j-1 >=0) matrix[tijolo.i][tijolo.j-1] = PIXEL;
+            case ORIENTACAO_LEFT:
                 matrix[tijolo.i][tijolo.j] = PIXEL;
+                if(tijolo.i-3 >=0) matrix[tijolo.i][tijolo.j-3] = PIXEL;
+                if(tijolo.i-2 >=0) matrix[tijolo.i][tijolo.j-2] = PIXEL;
+                if(tijolo.i-1 >=0) matrix[tijolo.i][tijolo.j-1] = PIXEL;                
                 break;              
-        case ORIENTACAO_LEFT:
+            case ORIENTACAO_DOWN:
             //Outra orientação de desenho
             break;
         }
@@ -68,17 +68,20 @@ int main(){
         printMatrix(matrix);
         switch(tijolo.orientacao){
             case ORIENTACAO_UP:
+            matrix[tijolo.i][tijolo.j] = EMPTY;
             //faça posição anterior do @ ser apagada
             if(tijolo.i-3>=0) matrix[tijolo.i-3][tijolo.j] = EMPTY;
             if(tijolo.i-2>=0) matrix[tijolo.i-2][tijolo.j] = EMPTY;
             if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = EMPTY;
-            matrix[tijolo.i][tijolo.j] = EMPTY;
-
             if(tijolo.i < (ROWS-1)) tijolo.i++;
             break;
             case ORIENTACAO_LEFT:
-
-            break;
+                matrix[tijolo.i][tijolo.j] = EMPTY;
+                if(tijolo.i-3 >=0) matrix[tijolo.i][tijolo.j-3] = EMPTY;
+                if(tijolo.i-2 >=0) matrix[tijolo.i][tijolo.j-2] = EMPTY;
+                if(tijolo.i-1 >=0) matrix[tijolo.i][tijolo.j-1] = EMPTY; 
+                if(tijolo.i< (ROWS-1))  tijolo.i++;              
+            break; 
         }
         //faço a posição da @ ir para a direita
         
