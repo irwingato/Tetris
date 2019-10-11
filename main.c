@@ -45,46 +45,16 @@ int main(){
         printf("@ = (%d, %d)\n", tijolo.i, tijolo.j);
         #endif
 
-        //posicionar o @ no meio da tela
-        switch(tijolo.orientacao){
-            case ORIENTACAO_UP:
-                matrix[tijolo.i][tijolo.j] = PIXEL;
-                if(tijolo.i-3>=0) matrix[tijolo.i-3][tijolo.j] = PIXEL;
-                if(tijolo.i-2>=0) matrix[tijolo.i-2][tijolo.j] = PIXEL;
-                if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = PIXEL;                
-                break;
-            case ORIENTACAO_LEFT:
-                matrix[tijolo.i][tijolo.j] = PIXEL;
-                if(tijolo.i-3 >=0) matrix[tijolo.i][tijolo.j-3] = PIXEL;
-                if(tijolo.i-2 >=0) matrix[tijolo.i][tijolo.j-2] = PIXEL;
-                if(tijolo.i-1 >=0) matrix[tijolo.i][tijolo.j-1] = PIXEL;                
-                break;              
-            case ORIENTACAO_DOWN:
-            //Outra orientação de desenho
-            break;
-        }
+        //posicionar o @ no meio da tela        
+        drawBar(matrix, tijolo, PIXEL);
 
         //mostro a matriz na tela
         printMatrix(matrix);
-        switch(tijolo.orientacao){
-            case ORIENTACAO_UP:
-            matrix[tijolo.i][tijolo.j] = EMPTY;
-            //faça posição anterior do @ ser apagada
-            if(tijolo.i-3>=0) matrix[tijolo.i-3][tijolo.j] = EMPTY;
-            if(tijolo.i-2>=0) matrix[tijolo.i-2][tijolo.j] = EMPTY;
-            if(tijolo.i-1>=0) matrix[tijolo.i-1][tijolo.j] = EMPTY;
-            if(tijolo.i < (ROWS-1)) tijolo.i++;
-            break;
-            case ORIENTACAO_LEFT:
-                matrix[tijolo.i][tijolo.j] = EMPTY;
-                if(tijolo.i-3 >=0) matrix[tijolo.i][tijolo.j-3] = EMPTY;
-                if(tijolo.i-2 >=0) matrix[tijolo.i][tijolo.j-2] = EMPTY;
-                if(tijolo.i-1 >=0) matrix[tijolo.i][tijolo.j-1] = EMPTY; 
-                if(tijolo.i< (ROWS-1))  tijolo.i++;              
-            break; 
-        }
-        //faço a posição da @ ir para a direita
         
+        drawBar(matrix, tijolo, EMPTY); 
+    
+        //faço a posição da @ ir para a direita
+        if(tijolo.i< (ROWS-1))  tijolo.i++;
 
         //lendo teclas
         keypressed = 0;         
@@ -101,9 +71,13 @@ int main(){
             case TECLA_D:
             case RIGHT: 
                 if(tijolo.j < (COLUMNS-1)) tijolo.j++; //vai para a direita 
-            break; 
+            break;
+            case TECLA_ESPACO:
+            if(tijolo.orientacao == ORIENTACAO_RIGHT)
+            tijolo.orientacao = ORIENTACAO_UP;
+            else
+                tijolo.orientacao++;    
         }
-
     }
 
     system("pause");
