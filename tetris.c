@@ -55,10 +55,23 @@ void printMatrix(char matrix[ROWS][COLUMNS]){
 }
 
 /* 
-    Desenhar uma barra usando o símbols de caractere ASCII
+    Desenhar uma barra-> usando o símbolos de caractere ASCII
     passado por parâmetro
 */
+void initBar(Bloco *barra){
+    barra->i = 0;
+    barra->j = COLUMNS/2;
+    barra->tipo = TIPO_I;
+    barra->orientacao = ORIENTACAO_LEFT;
+    barra->width = 5;
+    barra->height = 1;
 
+        #if DEBUG == 1
+        printf("posI :%d posJ: %d\n", barra->i, barra->j);  
+        system("pause");  
+        #endif
+
+}
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
     switch(barra.orientacao){
     case ORIENTACAO_DOWN:
@@ -78,4 +91,37 @@ void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
                 if(barra.j-1 >=0) matrix[barra.i][barra.j-1] = simbolo;                
                 break;    
     }
+}
+
+void rotate(Bloco *bloco){
+        if(bloco->orientacao == ORIENTACAO_RIGHT)
+            bloco->orientacao = ORIENTACAO_UP;
+            else
+                bloco->orientacao++;
+
+                //Inverte as dimensões do bloco->
+                int aux = bloco->width;
+                bloco->width = bloco->height;
+                bloco->height = aux;
+
+            //resolvendo bug dos cantos
+            if(bloco->j < (bloco->width/2))
+                bloco->j = bloco->width/2;
+
+            else if(bloco->j> COLUMNS - (bloco->width/2) - 1)
+                bloco->j = COLUMNS - (bloco->width/2) - 1;
+    }
+
+
+/*
+    Verifica a colisão de blocos
+*/
+
+int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra){
+    int retorno = 0;
+
+    if((barra.i + barra.height/2) >= (ROWS-1))
+        retorno = 1;
+
+    return retorno;
 }

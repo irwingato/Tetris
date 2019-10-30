@@ -23,39 +23,39 @@ int main(){
     Bloco tijolo;
     int keypressed=0;
 
-    //posicao inicial do personagem
-    tijolo.i = 0;
-    tijolo.j = COLUMNS/2;
-    tijolo.tipo = TIPO_I;
-    tijolo.orientacao = ORIENTACAO_LEFT;
-    tijolo.width = 5;
-    tijolo.height = 1;
-    //inicializando matriz
-    init(matrix);
-
     //apagar o cursor da tela
     ShowConsoleCursor(0);
     system("cls");
 
+    //posicao inicial do personagem
+    initBar(&tijolo);
+    //inicializando matriz
+    init(matrix);    
+
     //animação do jogo
     while(keypressed != ESC){        
-        gotoxy(0,0);
+        gotoxy(0,0);       
 
         #if DEBUG == 1
         printf("posicao = (%d, %d)\n", tijolo.i, tijolo.j);
         printf("dimensao = (%d, %d)\n", tijolo.width, tijolo.height);
         #endif
-
+        
         //posicionar o @ no meio da tela        
         drawBar(matrix, tijolo, PIXEL);
 
         //mostro a matriz na tela
         printMatrix(matrix);
         
-        drawBar(matrix, tijolo, EMPTY); 
-    
-        //faço a posição da @ ir para a direita
-        if(tijolo.i< (ROWS-1))  tijolo.i++;
+        //faço posição anterior do tijolo ser apagada
+        if(!collisionDetect(matrix, tijolo)){
+            drawBar(matrix, tijolo, EMPTY); 
+            
+            //faço a posição da @ ir para a direita
+            if(tijolo.i< (ROWS-1))  tijolo.i++;
+        }else{
+            initBar(&tijolo);
+        }      
 
         //lendo teclas
         keypressed = 0;         
@@ -74,22 +74,8 @@ int main(){
                 if(tijolo.j + (tijolo.width/2) < (COLUMNS-1)) tijolo.j++; //vai para a direita 
             break;
             case TECLA_ESPACO:
-            if(tijolo.orientacao == ORIENTACAO_RIGHT)
-            tijolo.orientacao = ORIENTACAO_UP;
-            else
-                tijolo.orientacao++;
-
-                //Inverte as dimensões do tijolo
-                int aux = tijolo.width;
-                tijolo.width = tijolo.height;
-                tijolo.height = aux;
-
-            //resolvendo bug dos cantos
-            if(tijolo.j < (tijolo.width/2))
-                tijolo.j = tijolo.width/2;
-
-            else if(tijolo.j> COLUMNS - (tijolo.width/2) - 1)
-                tijolo.j = COLUMNS - (tijolo.width/2) - 1;            
+                rotate(&tijolo);
+            break;            
             }
         }
     system("pause");
