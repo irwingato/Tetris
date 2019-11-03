@@ -55,23 +55,10 @@ void printMatrix(char matrix[ROWS][COLUMNS]){
 }
 
 /* 
-    Desenhar uma barra-> usando o símbolos de caractere ASCII
+    Desenhar uma barra usando o símbolos de caractere ASCII
     passado por parâmetro
 */
-void initBar(Bloco *barra){
-    barra->i = 0;
-    barra->j = COLUMNS/2;
-    barra->tipo = TIPO_I;
-    barra->orientacao = ORIENTACAO_LEFT;
-    barra->width = 5;
-    barra->height = 1;
 
-        #if DEBUG == 1
-        printf("posI :%d posJ: %d\n", barra->i, barra->j);  
-        system("pause");  
-        #endif
-
-}
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
     switch(barra.orientacao){
     case ORIENTACAO_DOWN:
@@ -93,16 +80,38 @@ void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
     }
 }
 
+/*
+    Inicializar a peça do tipo barra
+*/
+
+void initBar(Bloco *barra){
+    barra->i = 0;
+    barra->j = COLUMNS/2;
+    barra->tipo = TIPO_I;
+    barra->orientacao = ORIENTACAO_LEFT;
+    barra->width = 5;
+    barra->height = 1;
+
+        #if DEBUG == 1
+        printf("posI :%d posJ: %d\n", barra->i, barra->j);  
+        system("pause");  
+        #endif
+
+}
+
+/*
+    Rotaciona blocos do jogo
+*/
 void rotate(Bloco *bloco){
         if(bloco->orientacao == ORIENTACAO_RIGHT)
             bloco->orientacao = ORIENTACAO_UP;
             else
                 bloco->orientacao++;
 
-                //Inverte as dimensões do bloco->
-                int aux = bloco->width;
-                bloco->width = bloco->height;
-                bloco->height = aux;
+            //Inverte as dimensões do tijolo
+            int aux = bloco->width;
+            bloco->width = bloco->height;
+            bloco->height = aux;
 
             //resolvendo bug dos cantos
             if(bloco->j < (bloco->width/2))
@@ -119,9 +128,10 @@ void rotate(Bloco *bloco){
 
 int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra){
     int retorno = 0;
-
-    if((barra.i + barra.height/2) >= (ROWS-1))
+    
+   //Colisão com a base
+   if((barra.i + barra.height/2) >= (ROWS-1))
         retorno = 1;
-
+        
     return retorno;
 }

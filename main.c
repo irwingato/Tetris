@@ -12,7 +12,6 @@
 
 #include "tetris.h"
 #include "display.h"
-#define DEBUG 1
 
 /*
     Parte principal do programa, responsável por iniciar e 
@@ -21,7 +20,7 @@
 int main(){
     char matrix[ROWS][COLUMNS];
     Bloco tijolo;
-    int keypressed=0;
+    int keypressed=0;   
 
     //apagar o cursor da tela
     ShowConsoleCursor(0);
@@ -29,6 +28,7 @@ int main(){
 
     //posicao inicial do personagem
     initBar(&tijolo);
+
     //inicializando matriz
     init(matrix);    
 
@@ -37,8 +37,8 @@ int main(){
         gotoxy(0,0);       
 
         #if DEBUG == 1
-        printf("posicao = (%d, %d)\n", tijolo.i, tijolo.j);
-        printf("dimensao = (%d, %d)\n", tijolo.width, tijolo.height);
+            printf("posicao = (%d, %d)\n", tijolo.i, tijolo.j);
+            printf("dimensao = (%d, %d)\n", tijolo.width, tijolo.height);
         #endif
         
         //posicionar o @ no meio da tela        
@@ -50,7 +50,7 @@ int main(){
         //faço posição anterior do tijolo ser apagada
         if(!collisionDetect(matrix, tijolo)){
             drawBar(matrix, tijolo, EMPTY); 
-            
+
             //faço a posição da @ ir para a direita
             if(tijolo.i< (ROWS-1))  tijolo.i++;
         }else{

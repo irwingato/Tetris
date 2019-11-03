@@ -51,8 +51,13 @@ typedef struct{
     int orientacao; //orientação da peça
     int tipo; //tipo de peça (7 possíveis)
     int width; //largura da peça
-    int height; //altura da peça
+    int height; //altura da peça    
 }Bloco;
+
+typedef struct{
+    int dx;
+    int dy;
+}Delta;
 
 /*
     Inicializa a matriz principal com 'espaços vazios'
@@ -66,13 +71,18 @@ void init(char matrix[ROWS][COLUMNS]);
 void printMatrix(char matrix[ROWS][COLUMNS]);
 
 /* 
-    Desenhar uma barra usando o símbols de caractere ASCII
+    Desenha uma barra usando o símbolss de caractere ASCII
     passado por parâmetro
 */
 
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
 
-//rotacionar bloco no jogo
+/*
+    Inicializa a peça do tipo barra
+*/
+void initBar(Bloco *barra);
+
+//Rotaciona blocos no jogo
 void rotate(Bloco *bloco);
 
 /*
