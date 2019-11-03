@@ -54,11 +54,6 @@ typedef struct{
     int height; //altura da peça    
 }Bloco;
 
-typedef struct{
-    int dx;
-    int dy;
-}Delta;
-
 /*
     Inicializa a matriz principal com 'espaços vazios'
 */
