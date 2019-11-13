@@ -12,11 +12,14 @@
 /*
     Inicializa a matriz principal com 'espaços vazios'
 */
-void init(char matrix[ROWS][COLUMNS]){
-    int i,j;
+void init(char matrix[ROWS][COLUMNS])
+{
+    int i, j;
 
-    for(i=0; i<ROWS; i++){
-        for(j=0; j<COLUMNS; j++){
+    for (i = 0; i < ROWS; i++)
+    {
+        for (j = 0; j < COLUMNS; j++)
+        {
             matrix[i][j] = ' ';
         }
     }
@@ -26,20 +29,24 @@ void init(char matrix[ROWS][COLUMNS]){
     Mostra o conteúdo da matriz principal na tela 
     do computador.
 */
-void printMatrix(char matrix[ROWS][COLUMNS]){
-    int i,j;
+void printMatrix(char matrix[ROWS][COLUMNS])
+{
+    int i, j;
 
     printf("\t\t\t\t\t");
     //Linha de cima
-    for(j=0; j<COLUMNS+2; j++){
+    for (j = 0; j < COLUMNS + 2; j++)
+    {
         printf("*");
     }
     printf("\n");
 
     //Matriz do jogo
-    for(i=0; i<ROWS; i++){        
+    for (i = 0; i < ROWS; i++)
+    {
         printf("\t\t\t\t\t*");
-        for(j=0; j<COLUMNS; j++){
+        for (j = 0; j < COLUMNS; j++)
+        {
             printf("%c", matrix[i][j]);
         }
         printf("*\n");
@@ -47,11 +54,11 @@ void printMatrix(char matrix[ROWS][COLUMNS]){
 
     printf("\t\t\t\t\t");
     //Linha de baixo
-    for(j=0; j<COLUMNS+2; j++){
+    for (j = 0; j < COLUMNS + 2; j++)
+    {
         printf("*");
     }
     printf("\n");
-
 }
 
 /* 
@@ -59,24 +66,34 @@ void printMatrix(char matrix[ROWS][COLUMNS]){
     passado por parâmetro
 */
 
-void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
-    switch(barra.orientacao){
+void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo)
+{
+    switch (barra.orientacao)
+    {
     case ORIENTACAO_DOWN:
     case ORIENTACAO_UP:
-                matrix[barra.i][barra.j] = simbolo;
-                if(barra.i-4 >=0) matrix[barra.i-4][barra.j] = simbolo;
-                if(barra.i-3 >=0) matrix[barra.i-3][barra.j] = simbolo;
-                if(barra.i-2 >=0) matrix[barra.i-2][barra.j] = simbolo;
-                if(barra.i-1 >=0) matrix[barra.i-1][barra.j] = simbolo;
-                break;
+        matrix[barra.i][barra.j] = simbolo;
+        if (barra.i - 4 >= 0)
+            matrix[barra.i - 4][barra.j] = simbolo;
+        if (barra.i - 3 >= 0)
+            matrix[barra.i - 3][barra.j] = simbolo;
+        if (barra.i - 2 >= 0)
+            matrix[barra.i - 2][barra.j] = simbolo;
+        if (barra.i - 1 >= 0)
+            matrix[barra.i - 1][barra.j] = simbolo;
+        break;
     case ORIENTACAO_RIGHT:
     case ORIENTACAO_LEFT:
-                matrix[barra.i][barra.j] = simbolo;
-                if(barra.j+1 >=0) matrix[barra.i][barra.j+1] = simbolo;
-                if(barra.j+2 >=0) matrix[barra.i][barra.j+2] = simbolo;
-                if(barra.j-2 >=0) matrix[barra.i][barra.j-2] = simbolo;
-                if(barra.j-1 >=0) matrix[barra.i][barra.j-1] = simbolo;                
-                break;    
+        matrix[barra.i][barra.j] = simbolo;
+        if (barra.j + 1 >= 0)
+            matrix[barra.i][barra.j + 1] = simbolo;
+        if (barra.j + 2 >= 0)
+            matrix[barra.i][barra.j + 2] = simbolo;
+        if (barra.j - 2 >= 0)
+            matrix[barra.i][barra.j - 2] = simbolo;
+        if (barra.j - 1 >= 0)
+            matrix[barra.i][barra.j - 1] = simbolo;
+        break;
     }
 }
 
@@ -84,62 +101,113 @@ void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
     Inicializar a peça do tipo barra
 */
 
-void initBar(Bloco *barra){
+void initBar(Bloco *barra)
+{
     barra->i = 0;
-    barra->j = COLUMNS/2;
+    barra->j = COLUMNS / 2;
     barra->tipo = TIPO_I;
     barra->orientacao = ORIENTACAO_LEFT;
     barra->width = 5;
     barra->height = 1;
 
-        #if DEBUG == 1
-        printf("posI :%d posJ: %d\n", barra->i, barra->j);  
-        system("pause");  
-        #endif
-
+#if DEBUG == 1
+    printf("posI :%d posJ: %d\n", barra->i, barra->j);
+    system("pause");
+#endif
 }
 
 /*
     Rotaciona blocos do jogo
 */
-void rotate(Bloco *bloco){
-        if(bloco->orientacao == ORIENTACAO_RIGHT)
-            bloco->orientacao = ORIENTACAO_UP;
-            else
-                bloco->orientacao++;
+void rotate(Bloco *bloco)
+{
+    if (bloco->orientacao == ORIENTACAO_RIGHT)
+        bloco->orientacao = ORIENTACAO_UP;
+    else
+        bloco->orientacao++;
 
-            //Inverte as dimensões do tijolo
-            int aux = bloco->width;
-            bloco->width = bloco->height;
-            bloco->height = aux;
+    //Inverte as dimensões do tijolo
+    int aux = bloco->width;
+    bloco->width = bloco->height;
+    bloco->height = aux;
 
-            //resolvendo bug dos cantos
-            if(bloco->j < (bloco->width/2))
-                bloco->j = bloco->width/2;
+    //resolvendo bug dos cantos
+    if (bloco->j < (bloco->width / 2))
+        bloco->j = bloco->width / 2;
 
-            else if(bloco->j> COLUMNS - (bloco->width/2) - 1)
-                bloco->j = COLUMNS - (bloco->width/2) - 1;
-    }
-
+    else if (bloco->j > COLUMNS - (bloco->width / 2) - 1)
+        bloco->j = COLUMNS - (bloco->width / 2) - 1;
+}
 
 /*
     Verifica a colisão de blocos
 */
-
-int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra){
+int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int side)
+{
     int retorno = 0;
-    
-   //Colisão com a base
-   if((barra.i + 1) >= ROWS)
+
+        //Colisão com a base
+        if ((barra.i + 1) >= ROWS)
+            retorno = 1;
+
+        if (matrix[barra.i + 1][barra.j] != EMPTY)
+            retorno = 1;
+       
+        //Colisão com a base horizontal
+        int t2 = barra.width / 2;
+        if (matrix[barra.i + 1][barra.j + t2] != EMPTY)
+            retorno = 1;
+        if (matrix[barra.i + 1][barra.j - t2] != EMPTY)
+            retorno = 1;     
+
+    if (collideSides == 1)
+    {
+        if (side == RIGHT && matrix[barra.i][barra.j + t2 + 1] != EMPTY)
+            retorno = 1;
+        if (side == RIGHT && barra.j + t2 + 1 >= COLUMNS)
+            retorno = 1;
+        if (side == LEFT && matrix[barra.i][barra.j - t2 - 1] != EMPTY)
+            retorno = 1;
+        if (side == LEFT && barra.j - t2 - 1 < 0)
+            retorno = 1;
+    }
+
+    //Colisão lateral horizontal
+    if (collideSides == CHECK_SIDE && (barra.orientacao == ORIENTACAO_UP || barra.orientacao == ORIENTACAO_DOWN))
+    {
+        int i;
+        for (i = 0; i < barra.height; i++)
+        {
+            if (side == RIGHT && matrix[barra.i - i][barra.j + 1] != EMPTY)
+                retorno = 1;
+
+            if (side == LEFT && matrix[barra.i - i][barra.j - 1] != EMPTY)
+                retorno = 1;
+        }
+        if(side==RIGHT && barra.j +1 >= COLUMNS)
+            retorno = 1;
+
+        if(side==LEFT && barra.j -1 < 0)
+            retorno = 1; 
+    }
+
+    return retorno;
+}
+int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra)
+{
+    int retorno = 0;
+
+    //Colisão com a base
+    if ((barra.i + 1) >= ROWS)
         retorno = 1;
 
-   if(matrix[barra.i + 1] [barra.j] != EMPTY)
+    if (matrix[barra.i + 1][barra.j] != EMPTY)
         retorno = 1;
-   
-   int t2 = barra.width / 2;
-   if(matrix[barra.i+1][barra.j+ t2] != EMPTY)
+
+    int t2 = barra.width / 2;
+    if (matrix[barra.i + 1][barra.j + t2] != EMPTY)
         retorno = 1;
-   if(matrix[barra.i+1][barra.j - t2] != EMPTY)
+    if (matrix[barra.i + 1][barra.j - t2] != EMPTY)
         retorno = 1;
     return retorno;
 }
