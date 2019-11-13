@@ -142,6 +142,27 @@ void rotate(Bloco *bloco)
 /*
     Verifica a colisão de blocos
 */
+
+int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra)
+{
+    int retorno = 0;
+
+    //Colisão com a base
+    if ((barra.i + 1) >= ROWS)
+        retorno = 1;
+
+    if (matrix[barra.i + 1][barra.j] != EMPTY)
+        retorno = 1;
+
+    int t2 = barra.width / 2;
+    if (matrix[barra.i + 1][barra.j + t2] != EMPTY)
+        retorno = 1;
+    if (matrix[barra.i + 1][barra.j - t2] != EMPTY)
+        retorno = 1;
+        
+    return retorno;
+}
+
 int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int side)
 {
     int retorno = 0;
@@ -150,6 +171,7 @@ int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int 
         if ((barra.i + 1) >= ROWS)
             retorno = 1;
 
+        //Colisão com a base de outras peças
         if (matrix[barra.i + 1][barra.j] != EMPTY)
             retorno = 1;
        
@@ -160,7 +182,8 @@ int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int 
         if (matrix[barra.i + 1][barra.j - t2] != EMPTY)
             retorno = 1;     
 
-    if (collideSides == 1)
+    //Colisão lateral horizontal
+    if (collideSides== CHECK_SIDE && (barra.orientacao == ORIENTACAO_LEFT || barra.orientacao == ORIENTACAO_RIGHT))
     {
         if (side == RIGHT && matrix[barra.i][barra.j + t2 + 1] != EMPTY)
             retorno = 1;
@@ -172,7 +195,7 @@ int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int 
             retorno = 1;
     }
 
-    //Colisão lateral horizontal
+    //Colisão lateral vertical
     if (collideSides == CHECK_SIDE && (barra.orientacao == ORIENTACAO_UP || barra.orientacao == ORIENTACAO_DOWN))
     {
         int i;
@@ -191,23 +214,5 @@ int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int 
             retorno = 1; 
     }
 
-    return retorno;
-}
-int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra)
-{
-    int retorno = 0;
-
-    //Colisão com a base
-    if ((barra.i + 1) >= ROWS)
-        retorno = 1;
-
-    if (matrix[barra.i + 1][barra.j] != EMPTY)
-        retorno = 1;
-
-    int t2 = barra.width / 2;
-    if (matrix[barra.i + 1][barra.j + t2] != EMPTY)
-        retorno = 1;
-    if (matrix[barra.i + 1][barra.j - t2] != EMPTY)
-        retorno = 1;
     return retorno;
 }
